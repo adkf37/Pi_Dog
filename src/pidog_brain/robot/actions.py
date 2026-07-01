@@ -1,0 +1,16 @@
+ACTION_DESCRIPTIONS = {
+    "sit": "Sit down on hind legs",
+    "stand": "Stand on all four legs",
+    "rest": "Lie down and rest",
+    "nod": "Nod head up and down",
+    "shake_head": "Shake head side to side",
+    "wag_tail": "Wag tail side to side",
+    "bark": "Bark sound",
+    "howl": "Howl sound",
+    "stretch": "Stretch front legs forward",
+    "step_forward": "Take a step forward",
+    "step_backward": "Take a step backward",
+    "turn_left": "Turn body left",
+    "turn_right": "Turn body right",
+    "stop": "Stop all motion immediately",
+}

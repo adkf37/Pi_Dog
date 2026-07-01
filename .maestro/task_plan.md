@@ -4,11 +4,11 @@
 
 | ID | Task | Phase | Profile | Dependencies | Status | Build Batch |
 |----|------|-------|---------|-------------|--------|-------------|
-| 01 | Scaffold Repo | 0 — Scaffolding | build | — | pending | 1 |
-| 02 | Implement Config | 0 — Scaffolding | build | 01 | pending | 2 |
-| 03 | Action Schema | 0 — Scaffolding | build | 01 | pending | 2 |
-| 04 | Policy Layer | 0 — Scaffolding | build | 03 | pending | 3 |
-| 05 | Mock Robot | 0 — Scaffolding | build | 03 | pending | 3 |
+| 01 | Scaffold Repo | 0 — Scaffolding | build | — | done | 1 |
+| 02 | Implement Config | 0 — Scaffolding | build | 01 | done | 2 |
+| 03 | Action Schema | 0 — Scaffolding | build | 01 | done | 2 |
+| 04 | Policy Layer | 0 — Scaffolding | build | 03 | done | 3 |
+| 05 | Mock Robot | 0 — Scaffolding | build | 03 | done | 3 |
 | 06 | Ollama Client | 1 — LLM Integration | build | 02 | pending | 4 |
 | 07 | Planner | 1 — LLM Integration | build | 03, 04, 06 | pending | 5 |
 | 08 | CLI Demo | 1 — LLM Integration | build | 02, 05, 07 | pending | 6 |
@@ -19,18 +19,18 @@
 
 ## Build Batches
 
-### Batch 1 (Phase 0a) — Foundation
+### Batch 1 (Phase 0a) — Foundation (done)
 - **task-01** — Scaffold Repo
 - Agent: build
 - Acceptance: `pip install -e .` succeeds, `pytest` runs, `import pidog_brain` works
 
-### Batch 2 (Phase 0b) — Core Abstractions
+### Batch 2 (Phase 0b) — Core Abstractions (done)
 - **task-02** — Implement Config *(depends: 01)*
 - **task-03** — Action Schema *(depends: 01)*
 - Agent: build
 - Acceptance: Config reads env vars with defaults; schema validates action JSON
 
-### Batch 3 (Phase 0c) — Validation & Mock
+### Batch 3 (Phase 0c) — Validation & Mock (done)
 - **task-04** — Policy Layer *(depends: 03)*
 - **task-05** — Mock Robot *(depends: 03)*
 - Agent: build

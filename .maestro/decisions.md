@@ -41,6 +41,20 @@
 - **Context:** Phase 5 (Demo & Polish) had no corresponding task file. The phases.md referenced it but the backlog/tasks/ didn't cover it.
 - **Decision:** Create task-12 covering demo scripts, model benchmarks, documentation refresh, and final integration.
 - **Rationale:** Without an explicit closeout task, the project would have no defined end state or handoff artifact.
-- **Context:** Robot should be safe to test on a workbench without falling.
-- **Decision:** `BENCH_MODE=true` (default) sets `movement_enabled=False`, which blocks `step_forward`, `step_backward`, `turn_left`, `turn_right` in the policy layer.
-- **Rationale:** Prevents accidents during development.
+
+## 2026-07-01 — Build Batch 1–3 (tasks 01–05)
+
+### Decision 008: pydantic-settings for config
+- **Context:** Need env-var-driven config with defaults and type coercion.
+- **Decision:** Use `pydantic-settings` (pydantic v2 `BaseSettings`).
+- **Rationale:** Idiomatic pattern, auto-reads `.env`, built-in type coercion; avoids hand-parsing env vars.
+
+### Decision 009: Policy clamps durations, does not reject
+- **Context:** LLM may produce durations exceeding `MAX_ACTION_DURATION_S`.
+- **Decision:** Policy **clamps** overlong durations to the max, rather than rejecting the whole plan.
+- **Rationale:** More resilient to LLM variation; the robot still does the intended action, just for the configured max duration.
+
+### Decision 010: Mock robot uses `time.sleep(0.1)` per action
+- **Context:** Need visual pacing when watching mock output.
+- **Decision:** Insert a small 100ms sleep per action in mock mode.
+- **Rationale:** Makes demo output readable without real hardware; short enough not to slow tests measurably.

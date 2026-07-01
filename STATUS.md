@@ -15,13 +15,14 @@ Build the Python package and core framework — scaffold, config, schema, policy
 
 ## Next Action
 
-Execute **Build Batch 1** — task-01 (Scaffold Repo). Create the Python package structure under `src/pidog_brain/`, `pyproject.toml`, `README.md`, `.env.example`, and empty module stubs.
+Execute **Build Batch 4** — task-06 (Ollama Client). Depends on task-02 (Config).
 
 ## Recent Activity
 
 - 2026-07-01: Project activated by Maestro — GitHub repo created, initial task dispatched
 - 2026-07-01: Planner phase complete — backlog/README.md, data_sources.md, phases.md, 10 task files, agent plan, decisions, and memory created
 - 2026-07-01: Task-review complete — task-10 split into voice (10) + sensors (11); task-12 (demo polish) added; task plan written; repo ready for build
+- 2026-07-01: Build Batch 1-3 complete — scaffold, config, schema, policy, mock robot implemented; 21 tests passing
 
 ## Progress Log
 
@@ -30,6 +31,7 @@ Execute **Build Batch 1** — task-01 (Scaffold Repo). Create the Python package
 - 2026-07-01: Project activated.
 - 2026-07-01: Planner phase complete — backlog and .maestro artifacts created.
 - 2026-07-01: Task-review complete — task count expanded from 10 to 12; `.maestro/task_plan.md` written; STATUS updated to `build` phase.
+- 2026-07-01: Build Batch 1-3 done — scaffold (01), config (02), schema (03), policy (04), mock robot (05) implemented and verified with 21 pytest tests.
 
 ## Artifacts
 
