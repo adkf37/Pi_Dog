@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Phase | planner |
+| Phase | task-review |
 | Last Updated | 2026-07-01 |
 | Agent Profile | planner |
 | Priority | medium |
@@ -28,6 +28,7 @@ Backlog created and planning artifacts written. Repo is ready for `task-review`.
 
 - 2026-07-01: Project activated.
 - 2026-07-01: Planner phase complete — backlog and .maestro artifacts created.
+- 2026-07-01: Scribe brief written at `.maestro/briefs/2026-07-01-after-planner.md`.
 
 ## Artifacts
 
