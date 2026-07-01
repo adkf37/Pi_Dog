@@ -23,6 +23,24 @@
 - **Rationale:** Safety rule #1 (allow-list) and #2 (schema validation).
 
 ### Decision 005: Bench mode disables all movement
+
+- **Context:** Robot should be safe to test on a workbench without falling.
+- **Decision:** `BENCH_MODE=true` (default) sets `movement_enabled=False`, which blocks `step_forward`, `step_backward`, `turn_left`, `turn_right` in the policy layer.
+- **Rationale:** Prevents accidents during development.
+
+---
+
+## 2026-07-01 — Task Review
+
+### Decision 006: Split task-10 into voice (10) and sensors (11)
+- **Context:** Original task-10 combined two milestones (Phase 3 Voice, Phase 4 Sensors) into one task. These are distinct features with different implementation surfaces.
+- **Decision:** Split into task-10 (Voice Loop — STT, TTS, wake word) and task-11 (Sensor Reactions — touch, ultrasonic, event loop).
+- **Rationale:** Each is independently testable. Voice can work without sensors and vice versa. Two bounded tasks are easier to schedule, validate, and debug than one combined task.
+
+### Decision 007: Add task-12 for demo & polish closeout
+- **Context:** Phase 5 (Demo & Polish) had no corresponding task file. The phases.md referenced it but the backlog/tasks/ didn't cover it.
+- **Decision:** Create task-12 covering demo scripts, model benchmarks, documentation refresh, and final integration.
+- **Rationale:** Without an explicit closeout task, the project would have no defined end state or handoff artifact.
 - **Context:** Robot should be safe to test on a workbench without falling.
 - **Decision:** `BENCH_MODE=true` (default) sets `movement_enabled=False`, which blocks `step_forward`, `step_backward`, `turn_left`, `turn_right` in the policy layer.
 - **Rationale:** Prevents accidents during development.
