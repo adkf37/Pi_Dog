@@ -15,6 +15,7 @@ src/pidog_brain/llm/llama_cpp_client.py
 src/pidog_brain/llm/ollama_client.py
 src/pidog_brain/perception/__init__.py
 src/pidog_brain/planner/__init__.py
+src/pidog_brain/planner/policy.py
 src/pidog_brain/planner/prompts.py
 src/pidog_brain/planner/schema.py
 src/pidog_brain/robot/__init__.py
@@ -23,3 +24,8 @@ src/pidog_brain/robot/base.py
 src/pidog_brain/robot/mock_robot.py
 src/pidog_brain/runtime/__init__.py
 src/pidog_brain/speech/__init__.py
+tests/test_action_schema.py
+tests/test_config.py
+tests/test_mock_robot.py
+tests/test_ollama_client.py
+tests/test_policy.py
