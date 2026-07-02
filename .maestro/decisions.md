@@ -58,3 +58,20 @@
 - **Context:** Need visual pacing when watching mock output.
 - **Decision:** Insert a small 100ms sleep per action in mock mode.
 - **Rationale:** Makes demo output readable without real hardware; short enough not to slow tests measurably.
+
+## 2026-07-01 — Build Batch 4 (task-06 Ollama Client)
+
+### Decision 011: OllamaClient raises typed exceptions instead of generic
+- **Context:** Callers need to distinguish connection errors from timeouts from bad responses.
+- **Decision:** Use `ConnectionError`, `TimeoutError`, and `RuntimeError` for distinct failure modes.
+- **Rationale:** Lets callers (planner, CLI) handle each case differently (e.g., retry on timeout, abort on connection failure).
+
+### Decision 012: LlamaCppClient is a stub for now
+- **Context:** Task-06 spec says the file should be a stub raising `NotImplementedError`.
+- **Decision:** Reduced the existing full implementation to a clear stub.
+- **Rationale:** Ollama is the primary backend for v1; llama.cpp support can be completed when benchmarked and prioritized.
+
+### Decision 013: Use `respx` for HTTP mocking in tests
+- **Context:** Need to test OllamaClient HTTP calls without a real Ollama server.
+- **Decision:** Added `respx` to test dependencies for in-process HTTP request mocking.
+- **Rationale:** Lightweight, pytest-native, intercepts real httpx calls at the transport layer.
