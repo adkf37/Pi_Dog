@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|---|
 | Phase | build |
-| Last Updated | 2026-07-01 |
+| Last Updated | 2026-07-02 |
 | Agent Profile | build |
 | Priority | medium |
 | Blocking | None |
@@ -15,7 +15,7 @@ Build the Python package and core framework — scaffold, config, schema, policy
 
 ## Next Action
 
-Execute **Build Batch 4** — task-06 (Ollama Client). Depends on task-02 (Config).
+Execute **Build Batch 5** — task-07 (Planner). Depends on tasks 03, 04, 06 (all done).
 
 ## Recent Activity
 
@@ -32,6 +32,8 @@ Execute **Build Batch 4** — task-06 (Ollama Client). Depends on task-02 (Confi
 - 2026-07-01: Planner phase complete — backlog and .maestro artifacts created.
 - 2026-07-01: Task-review complete — task count expanded from 10 to 12; `.maestro/task_plan.md` written; STATUS updated to `build` phase.
 - 2026-07-01: Build Batch 1-3 done — scaffold (01), config (02), schema (03), policy (04), mock robot (05) implemented and verified with 21 pytest tests.
+- 2026-07-01: Build Batch 4 (task-06, Ollama Client) implemented — LLMBase, OllamaClient, LlamaCppClient stub committed.
+- 2026-07-02: Checkpoint brief written at `.maestro/briefs/2026-07-02-progress.md`; STATUS updated to reflect actual code state.
 
 ## Artifacts
 
