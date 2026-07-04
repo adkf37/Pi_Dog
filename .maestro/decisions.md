@@ -97,3 +97,15 @@
 - **Context:** Prompt must include human-readable action descriptions for the LLM to pick appropriate actions.
 - **Decision:** Reuse `ACTION_DESCRIPTIONS` dict from `robot/actions.py` rather than duplicating descriptions.
 - **Rationale:** Single source of truth for action metadata; any future description changes propagate automatically to prompts.
+
+---
+
+## 2026-07-04 — Validation (tasks 06–07)
+
+### Decision 018: Validation passed — tasks 06–07 meet acceptance criteria
+- **Context:** Build batches 4–5 produced OllamaClient (task-06) and Planner (task-07). Validator ran all 46 tests and reviewed implementation against acceptance criteria.
+- **Evidence:**
+  - Task 06: All 4 acceptance checks pass. 8 unit tests with respx-mocked HTTP covering success, payload shape, extra kwargs, connection error, timeout, HTTP error, and bad JSON.
+  - Task 07: All 4 acceptance checks pass. 17 unit tests covering valid/invalid/malformed LLM responses, policy violations, prompt construction with/without robot state, parser edge cases (markdown fences, partial JSON, empty, garbage).
+  - 46/46 tests pass. All imports resolve. Source code quality: clean separation of concerns, typed exceptions, constructor injection, brace-depth JSON parser, graceful fallback plans.
+- **Outcome:** Pass. Recommend proceeding to Build Batch 6 (task-08 CLI Demo).
