@@ -2,20 +2,20 @@
 
 | Field | Value |
 |---|---|---|
-| Phase | build |
+| Phase | validate |
 | Last Updated | 2026-07-04 |
-| Agent Profile | build |
+| Agent Profile | scribe |
 | Priority | medium |
 | Blocking | None |
 | GitHub Repo | https://github.com/adkf37/Pi_Dog |
 
 ## Current Objective
 
-Build the Python package and core framework — scaffold, config, schema, policy, mock robot, LLM client, planner, CLI demo, PiDog adapter, voice loop, sensor reactions, and demo polish.
+Validate completed tasks 06–07 (OllamaClient, Planner) with mocked tests and acceptance checks, then proceed to Build Batch 6 (task-08 CLI Demo).
 
 ## Next Action
 
-Validate — all tasks up to task-07 (Planner) complete. Ready for **Build Batch 6 (task-08 CLI Demo)**.
+Validate — add mocked HTTP tests for OllamaClient (task-06), confirm Planner acceptance (task-07), then dispatch Build Batch 6 for CLI Demo (task-08).
 
 ## Recent Activity
 
