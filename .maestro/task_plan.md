@@ -10,7 +10,7 @@
 | 04 | Policy Layer | 0 — Scaffolding | build | 03 | done | 3 |
 | 05 | Mock Robot | 0 — Scaffolding | build | 03 | done | 3 |
 | 06 | Ollama Client | 1 — LLM Integration | build | 02 | done | 4 |
-| 07 | Planner | 1 — LLM Integration | build | 03, 04, 06 | pending | 5 |
+| 07 | Planner | 1 — LLM Integration | build | 03, 04, 06 | done | 5 |
 | 08 | CLI Demo | 1 — LLM Integration | build | 02, 05, 07 | pending | 6 |
 | 09 | PiDog Adapter | 2 — Hardware Bridge | build | 05, 08 | pending | 7 |
 | 10 | Voice Loop | 3 — Voice Loop | build | 07, 09 | pending | 8 |
@@ -44,7 +44,7 @@
 ### Batch 5 (Phase 1b) — Planning Engine
 - **task-07** — Planner *(depends: 03, 04, 06)*
 - Agent: build
-- Acceptance: Planner produces validated RobotPlan from user input
+- Acceptance: Planner produces validated RobotPlan from user input | 46 tests passing
 
 ### Batch 6 (Phase 1c) — CLI & Integration Test
 - **task-08** — CLI Demo *(depends: 02, 05, 07)*

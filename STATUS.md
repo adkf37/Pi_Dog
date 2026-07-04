@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|---|
 | Phase | build |
-| Last Updated | 2026-07-02 |
+| Last Updated | 2026-07-04 |
 | Agent Profile | build |
 | Priority | medium |
 | Blocking | None |
@@ -15,7 +15,7 @@ Build the Python package and core framework — scaffold, config, schema, policy
 
 ## Next Action
 
-Execute **Build Batch 5** — task-07 (Planner). Depends on tasks 03, 04, 06 (all done).
+Validate — all tasks up to task-07 (Planner) complete. Ready for **Build Batch 6 (task-08 CLI Demo)**.
 
 ## Recent Activity
 
@@ -24,6 +24,7 @@ Execute **Build Batch 5** — task-07 (Planner). Depends on tasks 03, 04, 06 (al
 - 2026-07-01: Task-review complete — task-10 split into voice (10) + sensors (11); task-12 (demo polish) added; task plan written; repo ready for build
 - 2026-07-01: Build Batch 1-3 complete — scaffold, config, schema, policy, mock robot implemented; 21 tests passing
 - 2026-07-01: Build Batch 4 complete — OllamaClient implemented with error handling, LlamaCppClient stubbed, 8 unit tests added; 29 tests passing
+- 2026-07-04: Build Batch 5 complete — Planner (task-07) implemented: `planner/__init__.py` (Planner class), `planner/parser.py` (JSON parser with retry/fallback), `planner/prompts.py` (system prompt + action schema build_prompt). 17 planner tests added; 46 tests total passing.
 
 ## Progress Log
 
