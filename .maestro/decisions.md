@@ -75,3 +75,25 @@
 - **Context:** Need to test OllamaClient HTTP calls without a real Ollama server.
 - **Decision:** Added `respx` to test dependencies for in-process HTTP request mocking.
 - **Rationale:** Lightweight, pytest-native, intercepts real httpx calls at the transport layer.
+
+## 2026-07-04 — Build Batch 5 (task-07 Planner)
+
+### Decision 014: Planner uses `LLMBase` abstraction, not concrete client
+- **Context:** Planner needs to call an LLM but should not depend on Ollama or llama.cpp directly.
+- **Decision:** Planner accepts any `LLMBase` instance via constructor injection.
+- **Rationale:** Keeps the planner testable with mock LLMs; aligns with Decision 002 LLM backend abstraction.
+
+### Decision 015: Parser extracts JSON from text via brace matching, not regex-only
+- **Context:** LLM responses may contain markdown fences, surrounding text, or other non-JSON content.
+- **Decision:** `parse_llm_response` first strips code fences, then finds the outermost `{...}` pair via brace-depth tracking.
+- **Rationale:** More robust than regex for nested objects; handles fence variations (```, ```json) with or without language tag.
+
+### Decision 016: Planner returns fallback `RobotPlan` with apology text on failure
+- **Context:** LLM might fail (exception, invalid JSON, policy violation). The planner should never crash.
+- **Decision:** Three fallback paths — LLM exception → "couldn't reach my planning engine"; parse failure → "couldn't understand"; policy violation → "planned something unsafe".
+- **Rationale:** Graceful degradation; each failure mode has a distinct message for debugging; caller always gets a valid `RobotPlan`.
+
+### Decision 017: `prompts.py` imports action descriptions from `robot/actions.py`
+- **Context:** Prompt must include human-readable action descriptions for the LLM to pick appropriate actions.
+- **Decision:** Reuse `ACTION_DESCRIPTIONS` dict from `robot/actions.py` rather than duplicating descriptions.
+- **Rationale:** Single source of truth for action metadata; any future description changes propagate automatically to prompts.
