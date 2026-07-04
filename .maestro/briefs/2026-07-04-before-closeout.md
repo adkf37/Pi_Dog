@@ -6,9 +6,9 @@ Return Phase: closeout
 Generated: 2026-07-04
 
 ## What Happened Since The Last Checkpoint
-- Validation complete — tasks 06 (OllamaClient) and 07 (Planner) pass all acceptance criteria. 46/46 tests passing. See `.maestro/validation_report.md` and decisions 014–018.
-- Last briefs default decisions applied: task-08 proceeded concurrently with validation (now moot — validation done), mock mode only for CLI demo confirmed.
-- Status is ready for Build Batch 6 (task-08 CLI Demo). Remaining work: tasks 08–12 (CLI, hardware bridge, voice, sensors, polish).
+- Prior checkpoint brief (this file) asked Q1 (proceed to task-08) and Q2 (skip lint infra). FEEDBACK.md is empty — both defaulted to "proceed" and "skip".
+- No code changes since validation completed — tasks 06–07 (OllamaClient, Planner) remain at 46/46 tests passing. See `.maestro/validation_report.md`.
+- STATUS.md correctly reflects Phase: closeout, ready for Build Batch 6 (task-08 CLI Demo).
 
 ## What Will Be Spent Next
 - **Batch 6 — task-08 (CLI Demo):** Wire `main.py` to config + planner + mock robot for `python -m pidog_brain.main --mode mock --input "hello"`. ~1 build session.
@@ -18,14 +18,14 @@ Generated: 2026-07-04
 
 ## Questions
 
-### Q1 - Proceed to Build Batch 6 or pause for a broader architecture review?
-Question: The core LLM integration (client + planner) is validated and passing 46 tests. 6 of 12 tasks are done. Three build batches plus closeout remain (~4–5 sessions). Should the build agent proceed immediately into task-08 (CLI Demo), or should a scribe/validator session review the architecture and backlog for any mid-project corrections before the remaining hardware-dependent work begins?
-Options: Proceed to task-08 immediately; Pause for a mid-project architecture review first
-Default: Proceed to task-08 immediately
+### Q1 - Proceed to Build Batch 6 (task-08 CLI Demo)?
+Question: Two briefs in a row have defaulted to proceeding with task-08. Validation is complete, 46/46 tests pass, and all dependencies are ready. Should the build agent begin task-08 immediately?
+Options: Proceed to task-08 now; Wait — I want to review or redirect before hardware-dependent work begins
+Default: Proceed to task-08 now
 Decision: default
 
-### Q2 - Should linting and type-checking infrastructure be added?
-Question: The repo has no lint or type-check configuration. As the project approaches hardware-dependent tasks (voice, sensors, PiDog adapter), catching errors earlier would become more valuable. Should a session be spent adding ruff + mypy (or pyright) configuration and fixing existing issues (~0.5 session)?
-Options: Skip — match existing no-lint pattern; Add ruff + type-checking infrastructure now
-Default: Skip — match existing no-lint pattern
+### Q2 - Reserve a compute session for PiDog hardware testing?
+Question: Tasks 09–11 require a Raspberry Pi 5 with PiDog hardware for full acceptance testing. Should a dedicated validation session on actual hardware be scheduled after the adapter (task-09) is built, or continue mock-first until the final closeout batch?
+Options: Validate task-09 on hardware before proceeding to voice/sensors; Continue mock-first; validate everything in Batch 9
+Default: Continue mock-first; validate everything in Batch 9
 Decision: default
