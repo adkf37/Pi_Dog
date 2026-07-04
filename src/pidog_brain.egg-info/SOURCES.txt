@@ -27,4 +27,5 @@ src/pidog_brain/speech/__init__.py
 tests/test_action_schema.py
 tests/test_config.py
 tests/test_mock_robot.py
+tests/test_ollama_client.py
 tests/test_policy.py
