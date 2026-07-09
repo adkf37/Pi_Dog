@@ -2,20 +2,20 @@
 
 | Field | Value |
 |---|---|---|
-| Phase | build |
+| Phase | validate |
 | Last Updated | 2026-07-09 |
-| Agent Profile | builder |
+| Agent Profile | critic |
 | Priority | medium |
 | Blocking | none |
 | GitHub Repo | https://github.com/adkf37/Pi_Dog |
 
 ## Current Objective
 
-Implement task-08 (CLI Demo) — wire up config → LLM → planner → mock robot end-to-end.
+Validate — critic phase complete, 7 warn findings filed for task-08 and earlier tasks.
 
 ## Next Action
 
-Validate — task-08 implemented and verified with 55 tests passing.
+Validate task-08 against acceptance criteria; address critic warnings before closeout.
 
 ## Recent Activity
 
@@ -39,6 +39,7 @@ Validate — task-08 implemented and verified with 55 tests passing.
 - 2026-07-01: Build Batch 4 done — task-06 (OllamaClient) implemented, `llm/__init__.py` exports classes, graceful error handling for connection/timeout/HTTP errors, 8 unit tests added; 29 tests passing.
 - 2026-07-02: Checkpoint brief written at `.maestro/briefs/2026-07-02-progress.md`; STATUS updated to reflect actual code state.
 - 2026-07-09: Build Batch 6 — task-08 (CLI Demo) implemented. `main.py` now a full CLI with argparse (`--mode`, `--input`, `--bench`), wires config → LLM → Planner → MockRobot end-to-end. Log output includes model name, latency, parse status, and executed actions. 9 new tests for the CLI. 55/55 tests passing.
+- 2026-07-09: Critic phase complete — 7 warn findings filed. Verdict: Warn. See `.maestro/critic_report.md` and `FEEDBACK.md`.
 
 ## Artifacts
 
