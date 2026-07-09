@@ -100,6 +100,30 @@
 
 ---
 
+## 2026-07-09 — Build Batch 6 (task-08 CLI Demo)
+
+### Decision 019: main.py uses direct composition, not dependency injection framework
+- **Context:** CLI entry point needs to wire up config → LLM → Planner → Robot.
+- **Decision:** Use simple factory functions (`_build_llm`, `_build_robot`) rather than a DI framework.
+- **Rationale:** The wiring is simple (4 components with 2 decision points). A DI framework adds complexity with no benefit for a single-entry-point CLI.
+
+### Decision 020: `--bench` flag overrides config to force movement disabled
+- **Context:** Settings default `bench_mode=True` for safety. The `--bench` flag should make bench mode explicit.
+- **Decision:** `--bench` sets `settings.bench_mode = True`. Users can still enable movement via `BENCH_MODE=false` env var.
+- **Rationale:** Explicit CLI flag is safer than silently relying on env default. Running `--bench` always means "disable movement" regardless of env state.
+
+### Decision 021: Empty `--input` defaults to "say hello"
+- **Context:** The acceptance check requires `--input "hello"`, but users may omit `--input`.
+- **Decision:** If `--input` is empty string or omitted, default to `"say hello"`.
+- **Rationale:** Provides a sensible demo behavior without requiring the user to always pass `--input`.
+
+### Decision 022: Ruff added for lint, but type-checking deferred
+- **Context:** Feedback requested lint/type-check infrastructure (ruff/mypy).
+- **Decision:** Added ruff configuration (E, F, I, W rules) to `pyproject.toml`. No mypy/type-checking added.
+- **Rationale:** Ruff is zero-config for basic lint and catches real issues. Full type-checking with mypy would require extensive annotation work across the codebase and is better as a separate task.
+
+---
+
 ## 2026-07-04 — Validation (tasks 06–07)
 
 ### Decision 018: Validation passed — tasks 06–07 meet acceptance criteria

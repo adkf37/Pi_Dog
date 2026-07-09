@@ -11,7 +11,7 @@
 | 05 | Mock Robot | 0 — Scaffolding | build | 03 | done | 3 |
 | 06 | Ollama Client | 1 — LLM Integration | build | 02 | done | 4 |
 | 07 | Planner | 1 — LLM Integration | build | 03, 04, 06 | done | 5 |
-| 08 | CLI Demo | 1 — LLM Integration | build | 02, 05, 07 | pending | 6 |
+| 08 | CLI Demo | 1 — LLM Integration | build | 02, 05, 07 | done | 6 |
 | 09 | PiDog Adapter | 2 — Hardware Bridge | build | 05, 08 | pending | 7 |
 | 10 | Voice Loop | 3 — Voice Loop | build | 07, 09 | pending | 8 |
 | 11 | Sensor Reactions | 4 — Sensor Reactions | build | 07, 09 | pending | 8 |

@@ -18,5 +18,15 @@ optional-dependencies = { llama = ["llama-cpp-python>=0.2"] }
 [project.scripts]
 pidog-brain = "pidog_brain.main:main"
 
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+
 [tool.setuptools.packages.find]
 where = ["src"]
