@@ -91,3 +91,66 @@ Linked Tasks: task-10, task-11
 **Empty subpackages misrepresent progress:** `perception/`, `speech/`, `runtime/` contain only empty `__init__.py` files. These correspond to pending tasks 10/11. Structure is correct but could mislead about actual completion state.
 
 **Rationale:** These are intentional directory stubs for future tasks (task-10 Voice Loop → `speech/`, task-11 Sensor Reactions → `perception/` and `runtime/`). They are correctly scoped by the task plan and will be implemented in Build Batches 8+. Empty `__init__.py` files are a standard Python packaging pattern for declaring namespaces early.
+
+### 2026-07-09 - Critic
+Status: open
+Priority: medium
+Scope: critic
+Severity: warn
+Linked Tasks: task-08
+
+**Mock mode still tries real Ollama connection:** In `--mode mock`, the system still uses the Ollama client (default `llm_backend="ollama"`). Without a running Ollama server, the demo produces 0 actions with a fallback message. Mock mode should use a mock LLM so the planning pipeline is actually demonstrated. This breaks the spirit of SC2 ("prints validated actions").
+
+### 2026-07-09 - Critic
+Status: open
+Priority: medium
+Scope: critic
+Severity: warn
+Linked Tasks: task-07
+
+**Prompt constraints are hardcoded, not derived from config:** `planner/prompts.py` hardcodes `"max 3.0"` and `"Maximum 3 actions"` but these values are configurable via `MAX_ACTION_DURATION_S` and `MAX_ACTIONS_PER_TURN`. If config changes, the prompt tells the LLM different rules than the policy enforces. Prompt should read constraint values from settings at build time.
+
+### 2026-07-09 - Critic
+Status: open
+Priority: medium
+Scope: critic
+Severity: warn
+Linked Tasks: task-08, task-09
+
+**`--mode robot` silently falls back to MockRobot:** `_build_robot("robot")` logs a warning but always returns MockRobot. It never attempts to import or instantiate PiDogAdapter, even as a guarded try/except. The `--mode robot` flag should at least attempt the PiDog import before falling back.
+
+### 2026-07-09 - Critic
+Status: open
+Priority: medium
+Scope: critic
+Severity: warn
+Linked Tasks: task-08
+
+**No validation report for task-08:** The existing `.maestro/validation_report.md` covers only tasks 06–07. Task-08 (CLI Demo) was built but never formally validated against its acceptance criteria by a validator agent. A validation report should be generated before returning to build phase.
+
+### 2026-07-09 - Critic
+Status: open
+Priority: low
+Scope: critic
+Severity: warn
+Linked Tasks: task-08
+
+**Test coverage gaps in CLI:** `test_main.py` does not test the Planner exception path (`main.py:108` `except Exception`), the `plan is None` guard (`main.py:115`), or the `--mode robot` fallback path. Add tests for these branches.
+
+### 2026-07-09 - Critic
+Status: open
+Priority: medium
+Scope: critic
+Severity: warn
+Linked Tasks: task-09, task-12
+
+**SC3 (80% valid JSON) remains unmeasured with no plan:** The 80% valid-JSON threshold from SC3 is still listed as a success criterion in `backlog/README.md:13` but has no measurement infrastructure. The project should either add a measurement script (e.g. as part of task-09 hardware bring-up) or remove SC3 from the success criteria. Without action, this criterion is abandoned, not deferred.
+
+### 2026-07-09 - Critic
+Status: open
+Priority: low
+Scope: critic
+Severity: warn
+Linked Tasks: task-01
+
+**Ruff configured but not installable:** `pyproject.toml` has a `[tool.ruff]` section (from the lint resolution of the previous critic), but ruff is not in any dependency group or `requirements.txt`. Running `ruff check src/` fails with module-not-found. Add ruff to a dev dependency group or install instructions.
