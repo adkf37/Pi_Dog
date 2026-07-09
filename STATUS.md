@@ -2,20 +2,20 @@
 
 | Field | Value |
 |---|---|---|
-| Phase | validate |
+| Phase | closeout |
 | Last Updated | 2026-07-09 |
-| Agent Profile | critic |
+| Agent Profile | scribe |
 | Priority | medium |
 | Blocking | none |
 | GitHub Repo | https://github.com/adkf37/Pi_Dog |
 
 ## Current Objective
 
-Validate — critic phase complete, 7 warn findings filed for task-08 and earlier tasks.
+Closeout — 8/12 tasks complete (01–08), 55/55 tests passing. 7 critic warn findings open; checkpoint brief written at `.maestro/briefs/2026-07-09-before-closeout.md`.
 
 ## Next Action
 
-Validate task-08 against acceptance criteria; address critic warnings before closeout.
+Human input on checkpoint brief: resolve Q1–Q3 to determine fix-critic-findings-first or proceed to task-09. Then complete remaining tasks (09–12) and closeout.
 
 ## Recent Activity
 
@@ -24,9 +24,10 @@ Validate task-08 against acceptance criteria; address critic warnings before clo
 - 2026-07-01: Task-review complete — task-10 split into voice (10) + sensors (11); task-12 (demo polish) added; task plan written; repo ready for build
 - 2026-07-01: Build Batch 1-3 complete — scaffold, config, schema, policy, mock robot implemented; 21 tests passing
 - 2026-07-01: Build Batch 4 complete — OllamaClient implemented with error handling, LlamaCppClient stubbed, 8 unit tests added; 29 tests passing
-- 2026-07-04: Build Batch 5 complete — Planner (task-07) implemented: `planner/__init__.py` (Planner class), `planner/parser.py` (JSON parser with retry/fallback), `planner/prompts.py` (system prompt + action schema build_prompt). 17 planner tests added; 46 tests total passing.
-- 2026-07-04: Validation complete — tasks 06–07 verified against all acceptance criteria. 46/46 tests passing. Report at `.maestro/validation_report.md`.
-- 2026-07-09: Build Batch 6 complete — task-08 (CLI Demo) implemented: `main.py` now wires config → LLM → Planner → MockRobot with argparse CLI (`--mode`, `--input`, `--bench`). 9 main tests added; 55 tests total passing. STATUS.md phase corrected from `closeout` to `build`.
+- 2026-07-04: Build Batch 5 complete — Planner (task-07) implemented. 17 planner tests added; 46 tests total passing.
+- 2026-07-04: Validation complete — tasks 06–07 verified against all acceptance criteria. 46/46 tests passing.
+- 2026-07-09: Build Batch 6 complete — task-08 (CLI Demo) implemented: `main.py` wires config → LLM → Planner → MockRobot with argparse CLI. 9 main tests added; 55 tests total passing.
+- 2026-07-09: Critic phase complete — 7 warn findings filed. Verdict: Warn. Checkpoint brief written at `.maestro/briefs/2026-07-09-before-closeout.md`.
 
 ## Progress Log
 
@@ -40,6 +41,7 @@ Validate task-08 against acceptance criteria; address critic warnings before clo
 - 2026-07-02: Checkpoint brief written at `.maestro/briefs/2026-07-02-progress.md`; STATUS updated to reflect actual code state.
 - 2026-07-09: Build Batch 6 — task-08 (CLI Demo) implemented. `main.py` now a full CLI with argparse (`--mode`, `--input`, `--bench`), wires config → LLM → Planner → MockRobot end-to-end. Log output includes model name, latency, parse status, and executed actions. 9 new tests for the CLI. 55/55 tests passing.
 - 2026-07-09: Critic phase complete — 7 warn findings filed. Verdict: Warn. See `.maestro/critic_report.md` and `FEEDBACK.md`.
+- 2026-07-09: Checkpoint brief written at `.maestro/briefs/2026-07-09-before-closeout.md`. STATUS.md updated to closeout phase with 3 steering questions for human input.
 
 ## Artifacts
 
@@ -59,4 +61,4 @@ Validate task-08 against acceptance criteria; address critic warnings before clo
 
 ## Needs Human Input
 
-_(None — ready for validation.)_
+Checkpoint brief at `.maestro/briefs/2026-07-09-before-closeout.md` — 3 questions (Q1–Q3) awaiting steering decision. See brief for details.
