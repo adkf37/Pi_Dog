@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     bench_mode: bool = True
     max_actions_per_turn: int = 3
     max_action_duration_s: float = 3.0
+    llama_model_path: str = "models/llama-model.gguf"
     enable_voice: bool = False
     enable_camera: bool = False
 
