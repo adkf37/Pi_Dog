@@ -34,7 +34,7 @@ def test_ollama_client_sends_correct_payload(respx_mock):
     assert body["prompt"] == "test prompt"
     assert body["stream"] is False
     assert body["think"] is False
-    assert body["keep_alive"] == "-1"
+    assert body["keep_alive"] == -1
     assert body["options"] == {
         "temperature": 0.0,
         "num_predict": 64,
@@ -94,9 +94,19 @@ def test_ollama_client_warmup_loads_without_generating(respx_mock):
         "model": "qwen3.5:0.8b",
         "prompt": "",
         "stream": False,
-        "keep_alive": "-1",
+        "keep_alive": -1,
     }
     assert metrics["load_duration_ms"] == 250.0
+
+
+def test_ollama_client_preserves_duration_keep_alive():
+    client = OllamaClient(keep_alive="30m")
+    assert client.keep_alive == "30m"
+
+
+def test_ollama_client_converts_numeric_keep_alive_to_integer():
+    client = OllamaClient(keep_alive="-1")
+    assert client.keep_alive == -1
 
 
 def test_ollama_client_connection_error():

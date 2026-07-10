@@ -33,7 +33,7 @@ class OllamaClient(LLMBase):
         self.model = model
         self.timeout_s = timeout_s
         self.warmup_timeout_s = warmup_timeout_s
-        self.keep_alive = keep_alive
+        self.keep_alive = self._normalize_keep_alive(keep_alive)
         self.think = think
         self.default_options = {
             "temperature": temperature,
@@ -122,6 +122,15 @@ class OllamaClient(LLMBase):
 
     def close(self) -> None:
         self._client.close()
+
+    @staticmethod
+    def _normalize_keep_alive(value: str | int) -> str | int:
+        if isinstance(value, str):
+            try:
+                return int(value)
+            except ValueError:
+                pass
+        return value
 
     @staticmethod
     def _extract_metrics(data: dict[str, Any]) -> dict[str, float | int | str]:
