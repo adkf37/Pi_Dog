@@ -3,8 +3,9 @@ import logging
 import time
 
 from pidog_brain.config import Settings, get_settings
-from pidog_brain.llm import OllamaClient, LlamaCppClient
+from pidog_brain.llm import LlamaCppClient, OllamaClient
 from pidog_brain.planner import Planner
+from pidog_brain.planner.router import route_fast_command
 from pidog_brain.robot.mock_robot import MockRobot
 
 logging.basicConfig(
@@ -22,7 +23,17 @@ def _build_llm(settings: Settings) -> OllamaClient | LlamaCppClient:
             settings.ollama_host,
             settings.ollama_model,
         )
-        return OllamaClient(host=settings.ollama_host, model=settings.ollama_model)
+        return OllamaClient(
+            host=settings.ollama_host,
+            model=settings.ollama_model,
+            timeout_s=settings.ollama_timeout_s,
+            warmup_timeout_s=settings.ollama_warmup_timeout_s,
+            keep_alive=settings.ollama_keep_alive,
+            num_predict=settings.ollama_num_predict,
+            num_ctx=settings.ollama_num_ctx,
+            temperature=settings.ollama_temperature,
+            think=settings.ollama_think,
+        )
     if settings.llm_backend == "llama.cpp":
         logger.info("Initializing LlamaCpp client (stub)")
         return LlamaCppClient(model_path=settings.llama_model_path)
@@ -97,18 +108,33 @@ def main() -> None:
     logger.info("Movement enabled=%s", settings.movement_enabled)
 
     llm = _build_llm(settings)
-    planner = Planner(llm, movement_enabled=settings.movement_enabled)
+    needs_llm = not settings.enable_fast_path or route_fast_command(user_input) is None
+    if settings.ollama_warmup and isinstance(llm, OllamaClient) and needs_llm:
+        logger.info("Warming Ollama model before accepting a command...")
+        try:
+            metrics = llm.warmup()
+            logger.info(
+                "Ollama warmup complete — load=%.0fms total=%.0fms",
+                metrics.get("load_duration_ms", 0),
+                metrics.get("total_duration_ms", 0),
+            )
+        except Exception as exc:
+            logger.warning("Ollama warmup failed: %s", exc)
+
+    planner = Planner(
+        llm,
+        movement_enabled=settings.movement_enabled,
+        fast_path_enabled=settings.enable_fast_path,
+    )
 
     logger.info("Planning for input: %s", user_input)
     start = time.perf_counter()
 
-    parse_failure = False
     try:
         plan = planner.plan(user_input)
     except Exception:
         logger.exception("Unexpected error during planning")
         plan = None
-        parse_failure = True
 
     latency = time.perf_counter() - start
 
@@ -118,11 +144,19 @@ def main() -> None:
         return
 
     logger.info(
-        "Plan received in %.2fs — say=%s actions=%d",
+        "Plan received in %.2fs — route=%s say=%s actions=%d",
         latency,
+        planner.last_route,
         plan.say,
         len(plan.actions),
     )
+
+    if (
+        isinstance(llm, OllamaClient)
+        and planner.last_route.startswith("llm")
+        and llm.last_metrics
+    ):
+        logger.info("Ollama metrics: %s", llm.last_metrics)
 
     robot = _build_robot(settings.pidog_mode)
     logger.info("Executing %d action(s)...", len(plan.actions))

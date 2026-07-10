@@ -2,7 +2,7 @@ from pidog_brain.llm.base import LLMBase
 from pidog_brain.planner import Planner
 from pidog_brain.planner.parser import parse_llm_response
 from pidog_brain.planner.prompts import build_prompt
-from pidog_brain.planner.schema import RobotPlan, AllowedAction
+from pidog_brain.planner.schema import AllowedAction, RobotPlan
 
 
 class MockLLM(LLMBase):
@@ -24,7 +24,7 @@ def test_planner_returns_validated_plan():
     llm = MockLLM(
         response='{"say": "hello", "actions": [{"name": "sit", "duration_s": 1.0}]}'
     )
-    planner = Planner(llm, movement_enabled=True)
+    planner = Planner(llm, movement_enabled=True, fast_path_enabled=False)
     plan = planner.plan("sit down")
     assert isinstance(plan, RobotPlan)
     assert plan.say == "hello"
@@ -34,7 +34,7 @@ def test_planner_returns_validated_plan():
 
 def test_planner_invalid_json_fallback():
     llm = MockLLM(response="this is not json")
-    planner = Planner(llm, movement_enabled=True)
+    planner = Planner(llm, movement_enabled=True, fast_path_enabled=False)
     plan = planner.plan("do something")
     assert isinstance(plan, RobotPlan)
     assert "couldn't understand" in plan.say.lower()
@@ -45,7 +45,7 @@ def test_planner_policy_violation_fallback():
     llm = MockLLM(
         response='{"say": "", "actions": [{"name": "step_forward", "duration_s": 1.0}]}'
     )
-    planner = Planner(llm, movement_enabled=False)
+    planner = Planner(llm, movement_enabled=False, fast_path_enabled=False)
     plan = planner.plan("walk forward")
     assert isinstance(plan, RobotPlan)
     assert "unsafe" in plan.say.lower()
@@ -54,7 +54,7 @@ def test_planner_policy_violation_fallback():
 
 def test_planner_llm_exception_fallback():
     llm = RaisingLLM()
-    planner = Planner(llm, movement_enabled=True)
+    planner = Planner(llm, movement_enabled=True, fast_path_enabled=False)
     plan = planner.plan("do something")
     assert isinstance(plan, RobotPlan)
     assert "couldn't reach" in plan.say.lower()
@@ -63,14 +63,14 @@ def test_planner_llm_exception_fallback():
 
 def test_planner_sends_user_input_in_prompt():
     llm = MockLLM(response='{"say": "ok", "actions": []}')
-    planner = Planner(llm, movement_enabled=True)
+    planner = Planner(llm, movement_enabled=True, fast_path_enabled=False)
     planner.plan("wag tail")
     assert "wag tail" in llm.last_prompt
 
 
 def test_planner_sends_robot_state_in_prompt():
     llm = MockLLM(response='{"say": "ok", "actions": []}')
-    planner = Planner(llm, movement_enabled=True)
+    planner = Planner(llm, movement_enabled=True, fast_path_enabled=False)
     planner.plan("hello", robot_state={"battery": 85, "mode": "mock"})
     assert "battery" in llm.last_prompt
     assert "85" in llm.last_prompt
@@ -83,6 +83,36 @@ def test_planner_empty_input():
     plan = planner.plan("")
     assert isinstance(plan, RobotPlan)
     assert plan.actions == []
+
+
+def test_planner_routes_common_command_without_llm():
+    llm = RaisingLLM()
+    planner = Planner(llm, movement_enabled=True, fast_path_enabled=True)
+    plan = planner.plan("wag your tail")
+    assert planner.last_route == "fast"
+    assert plan.actions[0].name == AllowedAction.wag_tail
+
+
+def test_planner_fast_path_still_enforces_bench_policy():
+    llm = RaisingLLM()
+    planner = Planner(llm, movement_enabled=False, fast_path_enabled=True)
+    plan = planner.plan("turn left")
+    assert "unsafe" in plan.say.lower()
+    assert plan.actions == []
+
+
+def test_planner_passes_json_schema_to_llm():
+    llm = MockLLM(response='{"say": "ok", "actions": []}')
+    received_kwargs = {}
+
+    def generate(prompt: str, **kwargs) -> str:
+        received_kwargs.update(kwargs)
+        return llm.response
+
+    llm.generate = generate
+    planner = Planner(llm, movement_enabled=True, fast_path_enabled=False)
+    planner.plan("do something playful")
+    assert received_kwargs["format"]["type"] == "object"
 
 
 def test_parse_llm_response_valid_json():

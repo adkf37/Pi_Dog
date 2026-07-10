@@ -33,6 +33,13 @@ def test_ollama_client_sends_correct_payload(respx_mock):
     assert body["model"] == "tinyllama"
     assert body["prompt"] == "test prompt"
     assert body["stream"] is False
+    assert body["think"] is False
+    assert body["keep_alive"] == "-1"
+    assert body["options"] == {
+        "temperature": 0.0,
+        "num_predict": 64,
+        "num_ctx": 1024,
+    }
 
 
 def test_ollama_client_passes_extra_kwargs(respx_mock):
@@ -43,7 +50,53 @@ def test_ollama_client_passes_extra_kwargs(respx_mock):
     client.generate("hi", temperature=0.5)
     import json
     body = json.loads(respx_mock.calls.last.request.content)
-    assert body["temperature"] == 0.5
+    assert body["options"]["temperature"] == 0.5
+
+
+def test_ollama_client_sends_structured_output_format(respx_mock):
+    respx_mock.post("http://localhost:11434/api/generate").respond(
+        json={"response": "{}"}
+    )
+    client = OllamaClient()
+    schema = {"type": "object"}
+    client.generate("hi", format=schema)
+    import json
+    body = json.loads(respx_mock.calls.last.request.content)
+    assert body["format"] == schema
+
+
+def test_ollama_client_records_metrics(respx_mock):
+    respx_mock.post("http://localhost:11434/api/generate").respond(
+        json={
+            "response": "ok",
+            "total_duration": 2_000_000_000,
+            "load_duration": 500_000_000,
+            "eval_count": 20,
+            "eval_duration": 1_000_000_000,
+        }
+    )
+    client = OllamaClient()
+    client.generate("hi")
+    assert client.last_metrics["total_duration_ms"] == 2000.0
+    assert client.last_metrics["load_duration_ms"] == 500.0
+    assert client.last_metrics["tokens_per_second"] == 20.0
+
+
+def test_ollama_client_warmup_loads_without_generating(respx_mock):
+    respx_mock.post("http://localhost:11434/api/generate").respond(
+        json={"response": "", "load_duration": 250_000_000}
+    )
+    client = OllamaClient(model="qwen3.5:0.8b")
+    metrics = client.warmup()
+    import json
+    body = json.loads(respx_mock.calls.last.request.content)
+    assert body == {
+        "model": "qwen3.5:0.8b",
+        "prompt": "",
+        "stream": False,
+        "keep_alive": "-1",
+    }
+    assert metrics["load_duration_ms"] == 250.0
 
 
 def test_ollama_client_connection_error():

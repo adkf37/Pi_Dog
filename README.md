@@ -41,6 +41,32 @@ cp .env.example .env
 
 Key settings: `PIDOG_MODE`, `LLM_BACKEND`, `OLLAMA_HOST`, `OLLAMA_MODEL`, `BENCH_MODE`.
 
+### Low-latency planning on Raspberry Pi
+
+The planner handles common commands such as `stop`, `sit`, `say hello`, and
+`wag your tail` without invoking the LLM. Other requests fall back to Ollama
+with thinking disabled, structured output, a small context, and a bounded
+response length. Every plan still passes through the safety policy.
+
+Keep the model warm and use a short deadline in `.env`:
+
+```env
+OLLAMA_MODEL=qwen3.5:0.8b
+OLLAMA_TIMEOUT_S=5
+OLLAMA_KEEP_ALIVE=-1
+OLLAMA_WARMUP=true
+ENABLE_FAST_PATH=true
+```
+
+Measure both fast-path and LLM latency on the Pi:
+
+```bash
+python scripts/benchmark_pi.py --iterations 3
+```
+
+The benchmark reports warm-up time, route selection, end-to-end latency, and
+Ollama's model-load, prompt-evaluation, and generation metrics.
+
 ## Project Structure
 
 ```

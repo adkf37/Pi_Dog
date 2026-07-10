@@ -1,4 +1,3 @@
-import os
 
 from pidog_brain.config import Settings
 
@@ -9,6 +8,12 @@ def test_default_settings():
     assert s.llm_backend == "ollama"
     assert s.ollama_host == "http://localhost:11434"
     assert s.ollama_model == "tinyllama"
+    assert s.ollama_timeout_s == 5.0
+    assert s.ollama_warmup_timeout_s == 120.0
+    assert s.ollama_num_predict == 64
+    assert s.ollama_num_ctx == 1024
+    assert s.ollama_think is False
+    assert s.enable_fast_path is True
     assert s.bench_mode is True
     assert s.max_actions_per_turn == 3
     assert s.max_action_duration_s == 3.0
